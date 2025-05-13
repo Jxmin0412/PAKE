@@ -4,10 +4,11 @@ import org.springframework.stereotype.Service;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 import java.util.Base64;
 
 @Service
-public class EncryptionService {
+public class    EncryptionService {
 
     public SecretKey generateSecretKey() throws Exception {
         KeyGenerator keyGen = KeyGenerator.getInstance("AES");
@@ -24,5 +25,9 @@ public class EncryptionService {
         cipher.init(Cipher.ENCRYPT_MODE, secretKey);
         byte[] encryptedBytes = cipher.doFinal(data.getBytes());
         return Base64.getEncoder().encodeToString(encryptedBytes);
+    }
+    public SecretKey decodeKey(String encodedKey) {
+        byte[] decodedKey = Base64.getDecoder().decode(encodedKey);
+        return new SecretKeySpec(decodedKey, 0, decodedKey.length, "AES");
     }
 }

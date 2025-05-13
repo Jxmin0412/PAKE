@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.crypto.SecretKey;
-import java.io.IOException;
 
 @Service
 public class UserService {
@@ -55,5 +54,9 @@ public class UserService {
             return user;
         }
         return null;
+    }
+    public User findById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
     }
 }
