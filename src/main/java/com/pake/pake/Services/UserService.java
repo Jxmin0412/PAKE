@@ -53,7 +53,7 @@ public class UserService {
                 user.getSecretKey().equals(secretKey)) {
             return user;
         }
-        return null;
+        return user;
     }
     public User findById(Long id) {
         return userRepository.findById(id)
