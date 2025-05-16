@@ -21,5 +21,5 @@ public class Product {
     @Column(columnDefinition = "LONGBLOB")
     private byte[] image;
 
-    private String imageFileName;
+
 }

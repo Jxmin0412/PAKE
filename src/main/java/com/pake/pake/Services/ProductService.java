@@ -46,7 +46,7 @@ public class ProductService {
         product.setQuantity(quantity);
         product.setCategory(category);
         product.setImage(image.getBytes());
-        product.setImageFileName(fileName);
+
 
 
         return productRepository.save(product);
@@ -55,4 +55,18 @@ public class ProductService {
     public List<Product> getAllProducts() {
         return productRepository.findAll();
     }
+    public Product purchaseProduct(Long productId) throws Exception {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new Exception("Product not found"));
+
+        if (product.getQuantity() <= 0) {
+            throw new Exception("Product out of stock");
+        }
+
+        // Decrease quantity by 1
+        product.setQuantity(product.getQuantity() - 1);
+        return productRepository.save(product);
+    }
+
+
 }

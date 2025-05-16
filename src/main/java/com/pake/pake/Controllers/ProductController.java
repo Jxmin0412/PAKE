@@ -4,6 +4,7 @@ import com.pake.pake.DTO.ProductDTO;
 import com.pake.pake.Entities.Product;
 import com.pake.pake.Services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -70,4 +71,21 @@ public class ProductController {
 
         return ResponseEntity.ok(productDTOs);
     }
+    @PostMapping("/purchase/{productId}")
+    public ResponseEntity<Map<String, Object>> purchaseProduct(@PathVariable Long productId) {
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            Product product = productService.purchaseProduct(productId);
+            response.put("success", true);
+            response.put("message", "Product purchased successfully");
+            response.put("redirectUrl", "./user_products1.html");
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("message", "Error purchasing product: " + e.getMessage());
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
+
 }
