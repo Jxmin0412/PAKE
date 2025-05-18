@@ -23,12 +23,13 @@ public class LoginController {
         Map<String, Object> response = new HashMap<>();
 
         try {
-            User user = userService.validateLogin(loginRequest.getUsername(), loginRequest.getPassword(), loginRequest.getSecretKey());
+            User user = userService.validateLogin(loginRequest.getUsername(), loginRequest.getPassword(), loginRequest.getSecretKey(), loginRequest.getFileData(), loginRequest.getFileName());
 
             if (user != null) {
                 // Store user information in session
                 session.setAttribute("userId", user.getId());
                 session.setAttribute("username", user.getUsername());
+                session.setAttribute("secretKey", user.getSecretKey());
 
                 response.put("success", true);
                 response.put("message", "Login successful");
@@ -36,7 +37,7 @@ public class LoginController {
                 return ResponseEntity.ok(response);
             } else {
                 response.put("success", false);
-                response.put("message", "Invalid username or password or secret key");
+                response.put("message", "Invalid credentials. Please try again.");
                 return ResponseEntity.badRequest().body(response);
             }
         } catch (Exception e) {

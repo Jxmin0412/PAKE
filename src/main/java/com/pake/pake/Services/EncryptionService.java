@@ -8,7 +8,7 @@ import javax.crypto.spec.SecretKeySpec;
 import java.util.Base64;
 
 @Service
-public class    EncryptionService {
+public class  EncryptionService {
 
     public SecretKey generateSecretKey() throws Exception {
         KeyGenerator keyGen = KeyGenerator.getInstance("AES");

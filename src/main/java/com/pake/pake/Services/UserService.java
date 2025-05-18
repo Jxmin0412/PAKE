@@ -46,14 +46,16 @@ public class UserService {
 
         return true;
     }
-    public User validateLogin(String username, String password, String secretKey) {
+    public User validateLogin(String username, String password, String secretKey,byte[] fileData, String filename) throws Exception {
         User user = userRepository.findByUsername(username);
         if (user != null &&
                 user.getPassword().equals(password) &&
-                user.getSecretKey().equals(secretKey)) {
+                user.getSecretKey().equals(secretKey) &&
+                user.getFilename().equals(filename) &&
+                java.util.Arrays.equals(user.getFileData(), fileData)) {
             return user;
         }
-        return user;
+        return null;
     }
     public User findById(Long id) {
         return userRepository.findById(id)
