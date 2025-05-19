@@ -75,6 +75,7 @@ public class ProductController {
     public ResponseEntity<Map<String, Object>> purchaseProduct(@PathVariable Long productId) {
         Map<String, Object> response = new HashMap<>();
 
+
         try {
             Product product = productService.purchaseProduct(productId);
             response.put("success", true);
