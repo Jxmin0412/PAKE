@@ -26,7 +26,7 @@ public class ProductService {
     public Product addProduct(String name, String description, Double price,
                               Integer quantity, String category, MultipartFile image) throws IOException {
         // Generate unique filename
-        String fileName = System.currentTimeMillis() + "_" + image.getOriginalFilename();
+        String fileName =  image.getOriginalFilename();
 
         // Create upload directory if it doesn't exist
         Path uploadPath = Paths.get("src/main/resources/products/");
@@ -34,9 +34,7 @@ public class ProductService {
             Files.createDirectories(uploadPath);
         }
 
-        // Save image file
-        Path filePath = uploadPath.resolve(fileName);
-        Files.copy(image.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
 
         // Create and save product
         Product product = new Product();
@@ -63,9 +61,12 @@ public class ProductService {
             throw new Exception("Product out of stock");
         }
 
-        // Decrease quantity by 1
-        product.setQuantity(product.getQuantity() - 1);
+        product.setQuantity(product.getQuantity());
         return productRepository.save(product);
+    }
+    public Product getProductById(Long id) throws Exception {
+        return productRepository.findById(id)
+                .orElseThrow(() -> new Exception("Product not found with id: " + id));
     }
 
 

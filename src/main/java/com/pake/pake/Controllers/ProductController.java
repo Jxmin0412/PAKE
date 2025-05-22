@@ -88,5 +88,30 @@ public class ProductController {
             return ResponseEntity.badRequest().body(response);
         }
     }
+    // Add this new endpoint
+    @GetMapping("/{id}")
+    public ResponseEntity<ProductDTO> getProductById(@PathVariable Long id) {
+        try {
+            Product product = productService.getProductById(id);
+            ProductDTO productDTO = convertToDTO(product);
+            return ResponseEntity.ok(productDTO);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    private ProductDTO convertToDTO(Product product) {
+        ProductDTO dto = new ProductDTO();
+        dto.setId(product.getId());
+        dto.setName(product.getName());
+        dto.setDescription(product.getDescription());
+        dto.setPrice(product.getPrice());
+        dto.setQuantity(product.getQuantity());
+        if (product.getImage() != null) {
+            dto.setImageBase64(Base64.getEncoder().encodeToString(product.getImage()));
+        }
+        return dto;
+    }
+
 
 }
