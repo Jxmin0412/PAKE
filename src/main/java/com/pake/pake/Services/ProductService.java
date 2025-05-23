@@ -51,6 +51,7 @@ public class ProductService {
     }
 
     public List<Product> getAllProducts() {
+
         return productRepository.findAll();
     }
     public Product purchaseProduct(Long productId) throws Exception {
